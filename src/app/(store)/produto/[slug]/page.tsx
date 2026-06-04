@@ -74,9 +74,9 @@ export default async function ProdutoPage({ params }: PageProps) {
     stockMap[`${v.color}_${v.size}`] = v.stock
   }
 
-  const availableColors = [...new Set(
-    product.variants.filter((v) => v.stock > 0).map((v) => v.color)
-  )]
+  const availableColors = Array.from(new Set<string>(
+    product.variants.filter((v: any) => v.stock > 0).map((v: any) => v.color as string)
+  ))
 
   const reviewCount = product._count.reviews
   const averageRating =

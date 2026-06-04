@@ -25,7 +25,7 @@ const PAYMENT_LABELS: Record<string, string> = {
 
 // ─── Subcomponentes ───────────────────────────────────────────────────────────
 
-function Timeline({ status, order }: { status: string; order: Record<string, unknown> }) {
+function Timeline({ status, order }: { status: string; order: Record<string, any> }) {
   const info = getStatusInfo(status)
   const cancelled = info.step === -1
 

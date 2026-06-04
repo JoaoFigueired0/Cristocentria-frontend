@@ -29,6 +29,7 @@ export interface ButtonProps
   fullWidth?: boolean
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  asChild?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -40,6 +41,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth = false,
       leftIcon,
       rightIcon,
+      asChild = false,
       className,
       children,
       disabled,
@@ -47,6 +49,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const buttonClass = cn(
+      'inline-flex items-center justify-center rounded font-body font-medium tracking-wide transition-all duration-150',
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy',
+      'disabled:pointer-events-none disabled:opacity-50',
+      variants[variant],
+      sizes[size],
+      fullWidth && 'w-full',
+      className
+    )
+
+    if (asChild && React.isValidElement(children)) {
+      return React.cloneElement(children as React.ReactElement<React.HTMLAttributes<HTMLElement>>, {
+        className: cn(buttonClass, (children as React.ReactElement<React.HTMLAttributes<HTMLElement>>).props.className),
+      })
+    }
+
     const isDisabled = disabled || loading
 
     return (
@@ -54,15 +72,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={isDisabled}
         aria-busy={loading}
-        className={cn(
-          'inline-flex items-center justify-center rounded font-body font-medium tracking-wide transition-all duration-150',
-          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy',
-          'disabled:pointer-events-none disabled:opacity-50',
-          variants[variant],
-          sizes[size],
-          fullWidth && 'w-full',
-          className
-        )}
+        className={buttonClass}
         {...props}
       >
         {loading ? (

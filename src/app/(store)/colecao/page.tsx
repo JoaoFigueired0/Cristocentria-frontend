@@ -167,7 +167,7 @@ export default async function ColecaoPage({
           </div>
         ) : (
           <ProductGrid>
-            {items.map((p) => (
+            {items.map((p: any) => (
               <ProductCard
                 key={p.id}
                 id={p.id}
