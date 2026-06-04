@@ -7,12 +7,13 @@ import { ProductForm } from '@/components/admin/ProductForm'
 export const metadata: Metadata = { title: 'Editar Produto — Admin' }
 
 interface PageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default async function EditarProdutoPage({ params }: PageProps) {
+  const { id } = await params
   const [product, categories] = await Promise.all([
-    api.admin.productById(params.id),
+    api.admin.productById(id),
     api.categories.list().catch(() => []),
   ])
 
@@ -71,7 +72,7 @@ export default async function EditarProdutoPage({ params }: PageProps) {
 
       <ProductForm
         mode="edit"
-        productId={params.id}
+        productId={id}
         initialData={initialData}
         categories={categories ?? []}
       />

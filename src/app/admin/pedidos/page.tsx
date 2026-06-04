@@ -9,18 +9,19 @@ export const metadata: Metadata = { title: 'Pedidos — Admin' }
 
 type SearchParams = { status?: string; search?: string; page?: string }
 
-export default async function AdminPedidosPage({ searchParams }: { searchParams: SearchParams }) {
-  const page = Math.max(1, Number(searchParams.page ?? 1))
+export default async function AdminPedidosPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const sp = await searchParams
+  const page = Math.max(1, Number(sp.page ?? 1))
   const params: Record<string, string> = { page: String(page), pageSize: '20' }
-  if (searchParams.status) params.status = searchParams.status
-  if (searchParams.search) params.search = searchParams.search
+  if (sp.status) params.status = sp.status
+  if (sp.search) params.search = sp.search
 
   const { items: orders = [], total = 0, totalPages = 1 } =
     await api.admin.orders(params).catch(() => ({ items: [], total: 0, totalPages: 1 }))
 
-  function buildHref(params: Partial<SearchParams>) {
-    const sp = new URLSearchParams({ ...searchParams, ...params } as Record<string, string>)
-    return `/admin/pedidos?${sp}`
+  function buildHref(overrides: Partial<SearchParams>) {
+    const qs = new URLSearchParams({ ...sp, ...overrides } as Record<string, string>)
+    return `/admin/pedidos?${qs}`
   }
 
   return (
@@ -35,7 +36,7 @@ export default async function AdminPedidosPage({ searchParams }: { searchParams:
         {['', ...Object.keys(ORDER_STATUS)].map((s) => (
           <Link key={s} href={buildHref({ status: s || undefined, page: '1' })}
             className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
-              (searchParams.status === s || (!searchParams.status && !s))
+              (sp.status === s || (!sp.status && !s))
                 ? 'border-brand-black bg-brand-black text-white'
                 : 'border-brand-border text-brand-graphite hover:border-brand-graphite'
             }`}>

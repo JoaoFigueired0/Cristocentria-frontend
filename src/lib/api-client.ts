@@ -11,7 +11,7 @@ async function apiFetch<T = unknown>(
   path: string,
   options: RequestInit & { next?: NextFetchRequestConfig; nullOn404?: boolean } = {}
 ): Promise<T | null> {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   // Em HTTPS (produção), NextAuth usa o prefixo __Secure-
   const sessionCookie =
     cookieStore.get('__Secure-next-auth.session-token') ??

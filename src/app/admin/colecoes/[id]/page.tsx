@@ -9,9 +9,10 @@ export const metadata: Metadata = { title: 'Editar Coleção — Admin' }
 export default async function EditarColeçãoPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
-  const collection = await api.admin.categories.byId(params.id)
+  const { id } = await params
+  const collection = await api.admin.categories.byId(id)
   if (!collection) notFound()
 
   return (
@@ -29,13 +30,13 @@ export default async function EditarColeçãoPage({
 
       <ColecaoForm
         mode="edit"
-        collectionId={params.id}
+        collectionId={id}
         initialData={{
           name: collection.name,
           slug: collection.slug,
           description: collection.description ?? '',
           image: collection.image ?? '',
-          isActive: collection.isActive,
+          isActive: collection.isActive ?? false,
         }}
       />
     </>

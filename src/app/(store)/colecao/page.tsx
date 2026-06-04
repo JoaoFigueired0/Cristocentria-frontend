@@ -36,9 +36,9 @@ type SearchParams = {
 export default async function ColecaoPage({
   searchParams,
 }: {
-  searchParams: SearchParams
+  searchParams: Promise<SearchParams>
 }) {
-  const { color, size, sort = 'newest', page = '1', category } = searchParams
+  const { color, size, sort = 'newest', page = '1', category } = await searchParams
 
   const params: Record<string, string> = { page, sort }
   if (color) params.color = color

@@ -11,13 +11,14 @@ export const metadata: Metadata = { title: 'Produtos — Admin' }
 export default async function AdminProdutosPage({
   searchParams,
 }: {
-  searchParams: { page?: string; search?: string }
+  searchParams: Promise<{ page?: string; search?: string }>
 }) {
+  const sp = await searchParams
   const pageSize = 20
-  const page = Math.max(1, Number(searchParams.page ?? 1))
+  const page = Math.max(1, Number(sp.page ?? 1))
 
   const params: Record<string, string> = { page: String(page), pageSize: String(pageSize) }
-  if (searchParams.search) params.search = searchParams.search
+  if (sp.search) params.search = sp.search
 
   const { items: products = [], total = 0, totalPages = 1 } =
     await api.admin.products(params).catch(() => ({ items: [], total: 0, totalPages: 1 }))

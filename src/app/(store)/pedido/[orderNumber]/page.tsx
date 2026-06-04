@@ -123,8 +123,9 @@ function AddressBlock({ snapshot }: { snapshot: unknown }) {
 
 // ─── Página ───────────────────────────────────────────────────────────────────
 
-export default async function PedidoPage({ params }: { params: { orderNumber: string } }) {
-  const order = await api.orders.byNumber(params.orderNumber).catch(() => null)
+export default async function PedidoPage({ params }: { params: Promise<{ orderNumber: string }> }) {
+  const { orderNumber } = await params
+  const order = await api.orders.byNumber(orderNumber).catch(() => null)
   if (!order) notFound()
 
   const statusInfo = getStatusInfo(order.status)

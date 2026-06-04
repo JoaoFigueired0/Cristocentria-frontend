@@ -22,12 +22,13 @@ const COLOR_DOT: Record<string, string> = {
 export default async function AdminEstoquePage({
   searchParams,
 }: {
-  searchParams: { productId?: string; lowStock?: string }
+  searchParams: Promise<{ productId?: string; lowStock?: string }>
 }) {
-  const lowStock = searchParams.lowStock === 'true'
+  const { productId, lowStock: lowStockParam } = await searchParams
+  const lowStock = lowStockParam === 'true'
 
   const stockParams: Record<string, string> = {}
-  if (searchParams.productId) stockParams.productId = searchParams.productId
+  if (productId) stockParams.productId = productId
   if (lowStock) stockParams.lowStock = 'true'
 
   const [variants, productsResult] = await Promise.all([
@@ -49,7 +50,7 @@ export default async function AdminEstoquePage({
       <Suspense fallback={null}>
         <EstoqueFilters
           products={productsResult}
-          currentProductId={searchParams.productId ?? ''}
+          currentProductId={productId ?? ''}
           currentLowStock={lowStock}
         />
       </Suspense>

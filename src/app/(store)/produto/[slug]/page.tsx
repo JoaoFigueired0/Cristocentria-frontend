@@ -11,11 +11,12 @@ import { ProductDetails } from '@/components/shop/ProductDetails'
 export const dynamic = 'force-dynamic'
 
 interface PageProps {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const product = await api.products.bySlug(params.slug)
+  const { slug } = await params
+  const product = await api.products.bySlug(slug)
   if (!product) return { title: 'Produto não encontrado' }
 
   const images = product.images as string[]
@@ -62,7 +63,8 @@ function StarsSummary({ rating, count }: { rating: number; count: number }) {
 }
 
 export default async function ProdutoPage({ params }: PageProps) {
-  const product = await api.products.bySlug(params.slug)
+  const { slug } = await params
+  const product = await api.products.bySlug(slug)
   if (!product) notFound()
 
   const images = product.images as string[]
