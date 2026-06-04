@@ -1,4 +1,4 @@
-import { DefaultSession } from 'next-auth'
+export {}
 
 type Role = 'CUSTOMER' | 'ADMIN'
 
@@ -7,7 +7,10 @@ declare module 'next-auth' {
     user: {
       id: string
       role: Role
-    } & DefaultSession['user']
+      name?: string | null
+      email?: string | null
+      image?: string | null
+    }
   }
 
   interface User {

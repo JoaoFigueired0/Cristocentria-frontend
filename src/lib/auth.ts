@@ -78,15 +78,15 @@ export const authOptions: NextAuthOptions = {
         } else {
           // Credentials: authorize já retorna o user com o CUID correto
           token.id = user.id
-          token.role = (user as any).role ?? 'CUSTOMER'
+          token.role = user.role ?? 'CUSTOMER'
         }
       }
       return token
     },
 
     async session({ session, token }) {
-      session.user.id = token.id as string
-      session.user.role = token.role as any
+      session.user.id = token.id
+      session.user.role = token.role
       return session
     },
   },
