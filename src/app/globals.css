@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --black:     #0A0A0A;
+  --white:     #F8F6F1;
+  --graphite:  #3A3A3A;
+  --offwhite:  #EDE9E0;
+  --beige:     #C9B99A;
+  --olive:     #5C6645;
+  --navy:      #1C2B4A;
+  --coffee:    #6B4226;
+  --border:    #E0DDD6;
+  --surface:   #F8F6F1;
+  --surface-2: #F0EDE6;
+  --muted:     #9A9A9A;
+  --pix:       #22C55E;
+  --ff-display: 'Bebas Neue', sans-serif;
+  --ff-body:    'DM Sans',    sans-serif;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--black);
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--ff-display);
+    letter-spacing: 0.03em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--beige);
+    color: var(--black);
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .text-display {
+    @apply font-display tracking-wide;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    @apply relative overflow-hidden rounded bg-brand-surface2;
+    background: linear-gradient(
+      90deg,
+      #f0ede6 25%,
+      #e8e5de 50%,
+      #f0ede6 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite linear;
+  }
+}

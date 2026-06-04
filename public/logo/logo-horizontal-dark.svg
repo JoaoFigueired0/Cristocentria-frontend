@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 40" role="img" aria-label="Cristocentria">
+  <!--
+    Logo Horizontal — sobre fundo claro
+    Dimensões: 248 × 40
+    Símbolo: 40×40 (escala de 64→40)  · Gap: 12px · Texto: Bebas Neue 26px
+    Nota: fonte deve estar carregada no contexto de uso (next/font ou @font-face)
+  -->
+
+  <!-- Símbolo 40×40 (escala: 40/64 = 0.625) -->
+  <g transform="scale(0.625)">
+    <circle cx="32" cy="32" r="31" fill="#F8F6F1" stroke="#0A0A0A" stroke-width="1.5"/>
+    <circle cx="32" cy="32" r="19" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+    <ellipse cx="32" cy="32" rx="19" ry="5.5" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+    <line x1="13" y1="32" x2="51" y2="32" stroke="#0A0A0A" stroke-width="0.75" stroke-linecap="round"/>
+    <ellipse cx="32" cy="23" rx="15" ry="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.75"/>
+    <ellipse cx="32" cy="41" rx="15" ry="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.75"/>
+    <line x1="32" y1="13" x2="32" y2="51" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="21" y1="26" x2="43" y2="26" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Nome da marca: Bebas Neue 26px, letter-spacing 3, baseline y=29 (centrado em 40px) -->
+  <text
+    x="52"
+    y="29"
+    font-family="'Bebas Neue', sans-serif"
+    font-size="26"
+    letter-spacing="3"
+    fill="#0A0A0A"
+  >CRISTOCENTRIA</text>
+</svg>

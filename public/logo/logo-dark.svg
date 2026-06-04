@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Cristocentria">
+  <!--
+    Cristocentria Logo — variante escura (sobre fundo claro)
+    Fundo: #F8F6F1 · Elementos: #0A0A0A
+    Globo: círculo externo + elipse equatorial achatada + equador + 2 latitudes
+    Cruz: haste vertical topo a base · barra horizontal no TERÇO SUPERIOR
+  -->
+
+  <!-- Anel externo do logo -->
+  <circle cx="32" cy="32" r="31" fill="#F8F6F1" stroke="#0A0A0A" stroke-width="1.5"/>
+
+  <!-- Globo — círculo completo (envelope esférico) -->
+  <circle cx="32" cy="32" r="19" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+
+  <!-- Globo — elipse horizontal achatada (rx grande, ry pequeno = projeção equatorial) -->
+  <ellipse cx="32" cy="32" rx="19" ry="5.5" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+
+  <!-- Globo — linha equatorial (reta horizontal pelo centro) -->
+  <line x1="13" y1="32" x2="51" y2="32" stroke="#0A0A0A" stroke-width="0.75" stroke-linecap="round"/>
+
+  <!-- Globo — latitude superior (acima do equador) -->
+  <ellipse cx="32" cy="23" rx="15" ry="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.75"/>
+
+  <!-- Globo — latitude inferior (abaixo do equador) -->
+  <ellipse cx="32" cy="41" rx="15" ry="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.75"/>
+
+  <!--
+    Cruz cristã
+    Haste vertical: topo (y=13) ao base (y=51) do globo
+    Barra horizontal: y = 13 + (51-13)/3 ≈ 25.7 → posição = TERÇO SUPERIOR
+    Largura da barra: proporcional à cruz latina tradicional
+  -->
+  <line x1="32" y1="13" x2="32" y2="51" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="21" y1="26" x2="43" y2="26" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

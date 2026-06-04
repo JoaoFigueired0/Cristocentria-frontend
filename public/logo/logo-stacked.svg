@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 118" role="img" aria-label="Cristocentria Long Size">
+  <!--
+    Logo Stacked — símbolo centralizado + nome abaixo + tagline "LONG SIZE"
+    Uso: landing pages, cartões, branding vertical
+    Dimensões: 200 × 118
+  -->
+
+  <!-- Símbolo 64×64 centralizado em x=200/2=100, offset left = 100-32 = 68 -->
+  <g transform="translate(68,0)">
+    <circle cx="32" cy="32" r="31" fill="#F8F6F1" stroke="#0A0A0A" stroke-width="1.5"/>
+    <circle cx="32" cy="32" r="19" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+    <ellipse cx="32" cy="32" rx="19" ry="5.5" fill="none" stroke="#0A0A0A" stroke-width="1"/>
+    <line x1="13" y1="32" x2="51" y2="32" stroke="#0A0A0A" stroke-width="0.75" stroke-linecap="round"/>
+    <ellipse cx="32" cy="23" rx="15" ry="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.75"/>
+    <ellipse cx="32" cy="41" rx="15" ry="3.5" fill="none" stroke="#0A0A0A" stroke-width="0.75"/>
+    <line x1="32" y1="13" x2="32" y2="51" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="21" y1="26" x2="43" y2="26" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Linha divisória sutil -->
+  <line x1="60" y1="76" x2="140" y2="76" stroke="#0A0A0A" stroke-width="0.5" stroke-opacity="0.25"/>
+
+  <!-- Nome: Bebas Neue 22px, centrado em x=100 -->
+  <text
+    x="100"
+    y="95"
+    font-family="'Bebas Neue', sans-serif"
+    font-size="22"
+    letter-spacing="4"
+    fill="#0A0A0A"
+    text-anchor="middle"
+  >CRISTOCENTRIA</text>
+
+  <!-- Tagline: DM Sans 8.5px, centrado, all caps via letter-spacing -->
+  <text
+    x="100"
+    y="110"
+    font-family="'DM Sans', sans-serif"
+    font-size="8.5"
+    letter-spacing="3.5"
+    fill="#9A9A9A"
+    text-anchor="middle"
+  >LONG SIZE</text>
+</svg>
