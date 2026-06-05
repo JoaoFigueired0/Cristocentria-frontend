@@ -5,6 +5,8 @@ import GoogleProvider from 'next-auth/providers/google'
 const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:3001'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret: process.env.AUTH_SECRET,
+  trustHost: true,
   session: { strategy: 'jwt' },
   pages: { signIn: '/login', error: '/login' },
 
