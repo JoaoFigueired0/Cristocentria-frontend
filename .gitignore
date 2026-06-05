@@ -4,3 +4,5 @@ node_modules
 .env.local
 .vercel
 envs-separados.txt
+AI/
+Cristocentria-Backend/
