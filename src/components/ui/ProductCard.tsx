@@ -53,8 +53,10 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   const [hovered, setHovered] = useState(false)
-  const mainImage = images[0] ?? '/logo/icon-app.svg'
-  const hoverImage = images[1] ?? mainImage
+  const [imgError, setImgError] = useState(false)
+  const raw = images[0] ?? ''
+  const mainImage = imgError || !raw ? '/logo/icon-app.svg' : raw
+  const hoverImage = images[1] && !imgError ? images[1] : mainImage
   const isExternal = mainImage.startsWith('http')
 
   const availableColors = [...new Set(
@@ -78,6 +80,7 @@ export function ProductCard({
             className="object-cover transition-opacity duration-300"
             priority={false}
             unoptimized={isExternal}
+            onError={() => setImgError(true)}
           />
           {badge && (
             <div className="absolute left-2 top-2 max-w-[calc(100%-48px)]">

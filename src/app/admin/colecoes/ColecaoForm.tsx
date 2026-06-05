@@ -140,7 +140,7 @@ export function ColecaoForm({ mode, collectionId, initialData }: ColecaoFormProp
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
               required
-              pattern="^[a-z0-9-]+$"
+              pattern="^[a-z0-9\-]+$"
               className={inputCls}
               placeholder="camisetas"
             />

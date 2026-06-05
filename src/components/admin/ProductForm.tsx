@@ -265,7 +265,7 @@ export function ProductForm({ mode, productId, initialData, categories }: Produc
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
                   required
-                  pattern="^[a-z0-9-]+$"
+                  pattern="^[a-z0-9\-]+$"
                   className={inputCls}
                   placeholder="camiseta-cristo-em-mim"
                 />
