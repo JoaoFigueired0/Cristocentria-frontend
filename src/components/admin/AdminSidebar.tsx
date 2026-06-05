@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LogoMark } from '@/components/layout/Logo'
+import { LogoutButton } from '@/components/ui/LogoutButton'
 import { cn } from '@/lib/utils'
 
 const NAV = [
@@ -80,12 +81,7 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
       {/* Rodapé */}
       <div className="border-t border-white/10 px-6 py-4">
         <p className="truncate text-xs text-white/40">{email}</p>
-        <Link
-          href="/api/auth/signout"
-          className="mt-2 block text-xs text-white/40 hover:text-white/70"
-        >
-          Sair
-        </Link>
+        <LogoutButton className="mt-2 block text-xs text-white/40 hover:text-white/70" />
       </div>
     </div>
   )

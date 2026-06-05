@@ -6,6 +6,7 @@ import { api } from '@/lib/api-client'
 import { Badge } from '@/components/ui/Badge'
 import { getInitials, formatBRL } from '@/lib/utils'
 import { getStatusInfo } from '@/lib/order-status'
+import { LogoutButton } from '@/components/ui/LogoutButton'
 
 export const metadata: Metadata = { title: 'Minha Conta' }
 
@@ -55,6 +56,9 @@ export default async function ContaPage() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <LogoutButton className="flex w-full items-center px-4 py-3 text-sm text-red-500 hover:text-red-700" />
+              </li>
             </ul>
           </nav>
         </aside>
