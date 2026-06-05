@@ -14,8 +14,8 @@ async function apiFetch<T = unknown>(
   const cookieStore = await cookies()
   // Em HTTPS (produção), NextAuth usa o prefixo __Secure-
   const sessionCookie =
-    cookieStore.get('__Secure-next-auth.session-token') ??
-    cookieStore.get('next-auth.session-token')
+    cookieStore.get('__Secure-authjs.session-token') ??
+    cookieStore.get('authjs.session-token')
 
   const { nullOn404, ...fetchOptions } = options
 
@@ -25,7 +25,7 @@ async function apiFetch<T = unknown>(
       'Content-Type': 'application/json',
       ...(fetchOptions.headers ?? {}),
       ...(sessionCookie
-        ? { Cookie: `next-auth.session-token=${sessionCookie.value}` }
+        ? { Cookie: `authjs.session-token=${sessionCookie.value}` }
         : {}),
     },
   })

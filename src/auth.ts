@@ -1,12 +1,11 @@
-import { NextAuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 
 const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:3001'
 
-export const authOptions: NextAuthOptions = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: 'jwt' },
-  secret: process.env.NEXTAUTH_SECRET,
   pages: { signIn: '/login', error: '/login' },
 
   providers: [
@@ -18,7 +17,6 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
-
         try {
           const res = await fetch(`${BACKEND}/api/auth/credentials`, {
             method: 'POST',
@@ -50,8 +48,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (user) {
         if (account?.provider === 'google') {
-          // Para OAuth, busca o CUID real do banco — user.id é o ID do Google,
-          // não corresponde a nenhum registro na tabela users.
           try {
             const res = await fetch(`${BACKEND}/api/users/oauth`, {
               method: 'POST',
@@ -63,22 +59,16 @@ export const authOptions: NextAuthOptions = {
               },
               body: JSON.stringify({ email: user.email, name: user.name }),
             })
-            if (res.ok) {
-              const dbUser = await res.json()
-              token.id = dbUser.id
-              token.role = dbUser.role ?? 'CUSTOMER'
-            } else {
-              token.id = user.id
-              token.role = 'CUSTOMER'
-            }
+            const dbUser = res.ok ? await res.json() : null
+            token.id = dbUser?.id ?? user.id
+            token.role = dbUser?.role ?? 'CUSTOMER'
           } catch {
-            token.id = user.id
+            token.id = user.id as string
             token.role = 'CUSTOMER'
           }
         } else {
-          // Credentials: authorize já retorna o user com o CUID correto
-          token.id = user.id
-          token.role = user.role ?? 'CUSTOMER'
+          token.id = user.id as string
+          token.role = (user as any).role ?? 'CUSTOMER'
         }
       }
       return token
@@ -86,10 +76,10 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id
-        session.user.role = token.role
+        session.user.id = token.id as string
+        session.user.role = token.role as any
       }
       return session
     },
   },
-}
+})
