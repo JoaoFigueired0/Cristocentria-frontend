@@ -8,6 +8,11 @@ import { getStatusInfo } from '@/lib/order-status'
 export const metadata: Metadata = { title: 'Dashboard Admin' }
 export const revalidate = 60
 
+function StatusBadge({ status }: { status: string }) {
+  const { label, variant } = getStatusInfo(status)
+  return <Badge variant={variant}>{label}</Badge>
+}
+
 function StatCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="rounded-xl border border-brand-border bg-white p-5">
@@ -86,7 +91,7 @@ export default async function AdminDashboard() {
                       {order.user?.name ?? order.guestName ?? '—'}
                     </td>
                     <td className="px-4 py-3">
-                      {(() => { const s = getStatusInfo(order.status); return <Badge variant={s.variant}>{s.label}</Badge> })()}
+                      <StatusBadge status={order.status} />
                     </td>
                     <td className="px-4 py-3 text-right font-medium">
                       {formatBRL(Number(order.total))}
