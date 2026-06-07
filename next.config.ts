@@ -9,8 +9,9 @@ const nextConfig: NextConfig = {
       { source: '/api/categories',      destination: `${BACKEND}/api/categories` },
       { source: '/api/cart',            destination: `${BACKEND}/api/cart` },
       { source: '/api/cart/:path*',     destination: `${BACKEND}/api/cart/:path*` },
-      { source: '/api/orders',          destination: `${BACKEND}/api/orders` },
-      { source: '/api/orders/:path*',   destination: `${BACKEND}/api/orders/:path*` },
+      { source: '/api/orders',                          destination: `${BACKEND}/api/orders` },
+      // Apenas o pedido individual — sub-paths como /cancel são tratados por route handlers
+      { source: '/api/orders/:orderNumber([^/]+)',     destination: `${BACKEND}/api/orders/:orderNumber` },
       { source: '/api/reviews',         destination: `${BACKEND}/api/reviews` },
       { source: '/api/reviews/:path*',  destination: `${BACKEND}/api/reviews/:path*` },
       { source: '/api/shipping/:path*', destination: `${BACKEND}/api/shipping/:path*` },
