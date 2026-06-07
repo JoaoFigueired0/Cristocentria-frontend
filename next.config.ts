@@ -5,7 +5,7 @@ const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:3001'
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
-      { source: '/api/admin/:path*',    destination: `${BACKEND}/api/admin/:path*` },
+      // /api/admin/* é tratado pelo route handler em src/app/api/admin/[...path]/route.ts
       { source: '/api/categories',      destination: `${BACKEND}/api/categories` },
       { source: '/api/cart',            destination: `${BACKEND}/api/cart` },
       { source: '/api/cart/:path*',     destination: `${BACKEND}/api/cart/:path*` },

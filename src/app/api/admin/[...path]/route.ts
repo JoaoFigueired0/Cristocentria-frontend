@@ -1,25 +1,27 @@
 import { auth } from '@/auth'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextAuthRequest } from 'next-auth'
 
 const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:3001'
 const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET ?? ''
 
-async function proxyAdmin(req: NextRequest, path: string[]): Promise<NextResponse> {
-  const session = await auth()
+type Ctx = { params: Promise<{ path: string[] }> }
 
-  if (!session?.user?.id) {
+const handler = auth(async function (req: NextAuthRequest, ctx: Ctx) {
+  if (!req.auth?.user?.id) {
     return NextResponse.json({ error: 'Não autenticado', code: 'UNAUTHORIZED' }, { status: 401 })
   }
-  if ((session.user as { role?: string }).role !== 'ADMIN') {
+  if ((req.auth.user as { role?: string }).role !== 'ADMIN') {
     return NextResponse.json({ error: 'Acesso negado', code: 'FORBIDDEN' }, { status: 403 })
   }
 
+  const { path } = await ctx.params
   const url = `${BACKEND}/api/admin/${path.join('/')}${req.nextUrl.search}`
 
   const headers: Record<string, string> = {
     'x-internal-secret': INTERNAL_SECRET,
-    'x-user-id': session.user.id,
-    'x-user-role': (session.user as { role?: string }).role ?? '',
+    'x-user-id': req.auth.user.id ?? '',
+    'x-user-role': (req.auth.user as { role?: string }).role ?? '',
   }
 
   const contentType = req.headers.get('content-type')
@@ -39,24 +41,8 @@ async function proxyAdmin(req: NextRequest, path: string[]): Promise<NextRespons
   const resBody = await res.arrayBuffer()
   return new NextResponse(resBody, {
     status: res.status,
-    headers: {
-      'content-type': res.headers.get('content-type') ?? 'application/json',
-    },
+    headers: { 'content-type': res.headers.get('content-type') ?? 'application/json' },
   })
-}
+})
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-  return proxyAdmin(req, (await params).path)
-}
-export async function POST(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-  return proxyAdmin(req, (await params).path)
-}
-export async function PATCH(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-  return proxyAdmin(req, (await params).path)
-}
-export async function PUT(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-  return proxyAdmin(req, (await params).path)
-}
-export async function DELETE(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
-  return proxyAdmin(req, (await params).path)
-}
+export { handler as GET, handler as POST, handler as PATCH, handler as PUT, handler as DELETE }
