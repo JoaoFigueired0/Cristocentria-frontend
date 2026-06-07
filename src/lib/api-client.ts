@@ -1,32 +1,29 @@
-/**
- * Cliente de API para Server Components (executa no servidor do frontend).
- * Chama o backend em :3001 diretamente, forwarding a cookie de sessão do NextAuth.
- * Client Components usam fetch('/api/...') — o next.config.ts faz o rewrite.
- */
-import { cookies } from 'next/headers'
+import { auth } from '@/auth'
 
 const BACKEND = process.env.BACKEND_URL ?? 'http://localhost:3001'
+const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET ?? ''
 
 async function apiFetch<T = unknown>(
   path: string,
   options: RequestInit & { next?: NextFetchRequestConfig; nullOn404?: boolean } = {}
 ): Promise<T | null> {
-  const cookieStore = await cookies()
-  // Em HTTPS (produção), NextAuth usa o prefixo __Secure-
-  const sessionCookie =
-    cookieStore.get('__Secure-authjs.session-token') ??
-    cookieStore.get('authjs.session-token')
+  const session = await auth()
 
   const { nullOn404, ...fetchOptions } = options
+
+  const authHeaders: Record<string, string> = {}
+  if (session?.user?.id && INTERNAL_SECRET) {
+    authHeaders['x-internal-secret'] = INTERNAL_SECRET
+    authHeaders['x-user-id'] = session.user.id
+    authHeaders['x-user-role'] = (session.user as { role?: string }).role ?? ''
+  }
 
   const res = await fetch(`${BACKEND}${path}`, {
     ...fetchOptions,
     headers: {
       'Content-Type': 'application/json',
       ...(fetchOptions.headers ?? {}),
-      ...(sessionCookie
-        ? { Cookie: `authjs.session-token=${sessionCookie.value}` }
-        : {}),
+      ...authHeaders,
     },
   })
 
