@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { href: '/colecao?category=moletons', label: 'Moletons' },
 ]
 
-export function Navbar() {
+export function Navbar({ isAdmin = false }: { isAdmin?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const cartCount = useCartStore((s) => s.count())
@@ -82,6 +82,17 @@ export function Navbar() {
             )}
           </button>
 
+          {/* Admin — desktop */}
+          {isAdmin && (
+            <Link
+              href="/admin"
+              aria-label="Painel administrativo"
+              className="hidden h-10 items-center justify-center rounded px-2 text-xs font-semibold uppercase tracking-widest text-brand-beige/80 transition-colors hover:text-brand-beige md:flex"
+            >
+              Admin
+            </Link>
+          )}
+
           {/* Minha conta — desktop */}
           <Link
             href="/conta"
@@ -133,6 +144,17 @@ export function Navbar() {
                 Minha conta
               </Link>
             </li>
+            {isAdmin && (
+              <li>
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-3 text-sm font-semibold uppercase tracking-widest text-brand-beige/80 hover:text-brand-beige"
+                >
+                  Painel Admin
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       )}

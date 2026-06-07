@@ -56,6 +56,19 @@ export default async function ContaPage() {
                   </Link>
                 </li>
               ))}
+              {session.user.role === 'ADMIN' && (
+                <li>
+                  <Link
+                    href="/admin"
+                    className="flex items-center justify-between px-4 py-3 text-sm font-semibold text-brand-black hover:text-brand-graphite"
+                  >
+                    Área Administrativa
+                    <svg className="h-3 w-3 text-brand-muted" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                      <path d="M4 2l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                </li>
+              )}
               <li>
                 <LogoutButton className="flex w-full items-center px-4 py-3 text-sm text-red-500 hover:text-red-700" />
               </li>
