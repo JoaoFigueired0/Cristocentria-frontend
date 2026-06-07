@@ -21,13 +21,20 @@ const handler = auth(async function (req: NextAuthRequest, ctx: Ctx) {
   const bodyText = Buffer.from(body).toString()
   const { reason } = JSON.parse(bodyText || '{}')
 
-  const isAdmin = (req.auth.user as { role?: string }).role === 'ADMIN'
+  const role = (req.auth.user as { role?: string }).role ?? ''
+  const isAdmin = role === 'ADMIN'
 
   if (isAdmin) {
+    const fullAdminHeaders = {
+      'x-internal-secret': INTERNAL_SECRET,
+      'x-user-id': req.auth.user.id ?? '',
+      'x-user-role': role,
+    }
+
     // Busca UUID do pedido via lista admin, depois PATCH status
     const searchRes = await fetch(
       `${BACKEND}/api/admin/orders?search=${encodeURIComponent(orderNumber)}&pageSize=1`,
-      { headers: adminHeaders }
+      { headers: fullAdminHeaders }
     ).catch(() => null)
 
     if (!searchRes?.ok) {
@@ -43,7 +50,7 @@ const handler = auth(async function (req: NextAuthRequest, ctx: Ctx) {
 
     const patchRes = await fetch(`${BACKEND}/api/admin/orders/${order.id}/status`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', ...adminHeaders },
+      headers: { 'Content-Type': 'application/json', ...fullAdminHeaders },
       body: JSON.stringify({ status: 'CANCELLED', notes: reason }),
     })
 
