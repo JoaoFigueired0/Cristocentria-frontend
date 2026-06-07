@@ -160,7 +160,7 @@ export function ProductForm({ mode, productId, initialData, categories }: Produc
       slug: slug.trim(),
       shortDescription: shortDescription.trim() || undefined,
       description: description.trim() || undefined,
-      basePrice: parseFloat(basePrice),
+      basePrice: basePrice ? parseFloat(basePrice) : undefined,
       pixPrice: parseFloat(pixPrice),
       badge: badge.trim() || null,
       isActive,
@@ -297,12 +297,11 @@ export function ProductForm({ mode, productId, initialData, categories }: Produc
           {/* Preços */}
           <Section title="Preços">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Preço original (R$) *">
+              <Field label="Preço original (R$)" hint="Opcional — deixe em branco para vender só no PIX">
                 <input
                   type="number"
                   value={basePrice}
                   onChange={(e) => setBasePrice(e.target.value)}
-                  required
                   min="0.01"
                   step="0.01"
                   className={inputCls}
