@@ -15,8 +15,13 @@ const handler = auth(async function (req: NextAuthRequest, ctx: Ctx) {
   const { orderNumber } = await (ctx as Ctx).params
   const body = await req.arrayBuffer()
 
+  const isAdmin = (req.auth.user as { role?: string }).role === 'ADMIN'
+  const backendPath = isAdmin
+    ? `/api/admin/orders/${orderNumber}/cancel`
+    : `/api/orders/${orderNumber}/cancel`
+
   try {
-    const res = await fetch(`${BACKEND}/api/orders/${orderNumber}/cancel`, {
+    const res = await fetch(`${BACKEND}${backendPath}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
