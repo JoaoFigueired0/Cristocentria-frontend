@@ -3,16 +3,10 @@ import Link from 'next/link'
 import { api } from '@/lib/api-client'
 import { Badge } from '@/components/ui/Badge'
 import { formatBRL } from '@/lib/utils'
+import { getStatusInfo } from '@/lib/order-status'
 
 export const metadata: Metadata = { title: 'Dashboard Admin' }
 export const revalidate = 60
-
-const STATUS_LABELS: Record<string, string> = {
-  PENDING: 'Pendente', AWAITING_PAYMENT: 'Ag. Pagamento',
-  PAID: 'Pago', PROCESSING: 'Processando',
-  SHIPPED: 'Enviado', DELIVERED: 'Entregue',
-  CANCELLED: 'Cancelado', REFUNDED: 'Reembolsado',
-}
 
 function StatCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
@@ -92,9 +86,7 @@ export default async function AdminDashboard() {
                       {order.user?.name ?? order.guestName ?? '—'}
                     </td>
                     <td className="px-4 py-3">
-                      <Badge variant={order.status === 'DELIVERED' ? 'pix' : order.status === 'SHIPPED' ? 'olive' : 'light'}>
-                        {STATUS_LABELS[order.status] ?? order.status}
-                      </Badge>
+                      {(() => { const s = getStatusInfo(order.status); return <Badge variant={s.variant}>{s.label}</Badge> })()}
                     </td>
                     <td className="px-4 py-3 text-right font-medium">
                       {formatBRL(Number(order.total))}
